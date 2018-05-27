@@ -1,0 +1,33 @@
+{
+  "name": "nodebb-plugin-onesignal",
+  "version": "4.1.6",
+  "description": "Allows NodeBB to interface with the OneSignal service in order to provide push notifications to OneSignal applications and devices",
+  "main": "library.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ReyKoxha/nodebb-plugin-onesignal"
+  },
+  "keywords": [
+    "nodebb",
+    "plugin",
+    "onesignal",
+    "push notifications"
+  ],
+  "author": {
+    "name": "CCob"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ReyKoxha/nodebb-plugin-onesignal/issues"
+  },
+  "readmeFilename": "README.md",
+  "dependencies": {
+    "escape-html": "^1.0.3",
+    "lru-cache": "^2.5.0",
+    "striptags": "^3.1.1",
+    "unescape-html": "^1.1.0"
+  },
+  "nbbpm": {
+    "compatibility": "^1.3.1"
+  }
+}
