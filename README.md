@@ -12,3 +12,6 @@ Download and manually extract this repo.
 3. Enter the client key and secret into the plugin's setup page (`/admin/onesignal`), and save.
 4. Reload NodeBB.
 
+## Credits
+[CCoB for the original NodeBB OneSignal](https://github.com/CCob/nodebb-plugin-onesignal)
+[NodeBB for the base](https://github.com/NodeBB/nodebb-plugin-pushbullet)
