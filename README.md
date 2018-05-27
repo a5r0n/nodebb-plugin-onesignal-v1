@@ -14,4 +14,5 @@ Download and manually extract this repo.
 
 ## Credits
 [CCoB for the original NodeBB OneSignal](https://github.com/CCob/nodebb-plugin-onesignal)
+
 [NodeBB for the base](https://github.com/NodeBB/nodebb-plugin-pushbullet)
