@@ -10,11 +10,15 @@
 		{ "hook": "action:notification.pushed", "method": "push" },
 		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" }
 	],
-	"templates": "static/templates",
+	"scripts": [
+		"lib/client-settings.js"
+	],
+	"staticDirs": {
+		"static": "./static"
+	},
 	"less": [
 		"static/style.less"
 	],
-	"scripts": [
-		"lib/client-settings.js"
-	]
+	"templates": "static/templates"
+}
 }
