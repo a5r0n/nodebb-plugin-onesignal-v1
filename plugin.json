@@ -8,7 +8,8 @@
 		{ "hook": "static:app.load", "method": "init" },
 		{ "hook": "filter:admin.header.build", "method": "addMenuItem" },
 		{ "hook": "action:notification.pushed", "method": "push" },
-		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" }
+		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" },
+		{ "hook": "filter:manifest.build", "method": "getManifest"}
 	],
 	"templates": "static/templates",
 	"less": [
