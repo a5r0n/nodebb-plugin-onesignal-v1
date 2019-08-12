@@ -8,7 +8,8 @@
 		{ "hook": "static:app.load", "method": "init" },
 		{ "hook": "filter:admin.header.build", "method": "addMenuItem" },
 		{ "hook": "action:notification.pushed", "method": "push" },
-		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" }
+		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" },
+		{ "hook": "filter:manifest.build", "method": "getManifest"}
 	],
 	"scripts": [
 		"lib/client-settings.js"
@@ -18,6 +19,9 @@
 	},
 	"less": [
 		"static/style.less"
+	],
+	"scripts": [
+		"lib/client-settings.js"
 	],
 	"templates": "static/templates"
 }

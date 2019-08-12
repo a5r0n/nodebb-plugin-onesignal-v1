@@ -289,6 +289,12 @@ onesignal.isUserAssociated = function(uid, callback) {
 	db.isObjectField('users:onesignal:players', uid, callback);
 };
 
+onesignal.getManifest = function(data, callback){
+	data.manifest.gcm_sender_id = "482941778795";
+	data.manifest.gcm_sender_id_comment = "Do not change the GCM Sender ID";
+	callback(null, data);
+};
+
 onesignal.getAssociatedUsers = function(callback) {
 	db.getObjectKeys('users:onesignal:players', function(err, uids) {
 		if (!err) {
