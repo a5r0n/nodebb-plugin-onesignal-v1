@@ -11,11 +11,17 @@
 		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" },
 		{ "hook": "filter:manifest.build", "method": "getManifest"}
 	],
-	"templates": "static/templates",
+	"scripts": [
+		"lib/client-settings.js"
+	],
+	"staticDirs": {
+		"static": "./static"
+	},
 	"less": [
 		"static/style.less"
 	],
 	"scripts": [
 		"lib/client-settings.js"
-	]
+	],
+	"templates": "static/templates"
 }
