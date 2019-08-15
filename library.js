@@ -40,7 +40,11 @@ onesignal.init = function(data, callback) {
 	data.router.get('/onesignal/settings', pluginMiddleware.hasConfig, globalMiddleware.authenticate,pluginMiddleware.setupRequired, data.middleware.buildHeader, pluginControllers.renderSettings);
 	data.router.get('/api/me/onesignal/devices', globalMiddleware.authenticate, pluginMiddleware.isLoggedIn, pluginControllers.getPlayerIds);
     data.router.post('/api/me/onesignal/devices', globalMiddleware.authenticate, pluginMiddleware.isLoggedIn, pluginMiddleware.addDevice, pluginControllers.getPlayerIds);
-
+	
+	// ServiceWorker routes
+	data.router.get("/OneSignalSDKWorker.js", pluginMiddleware.OneSignalSDKWorker);
+	data.router.get("/OneSignalSDKUpdaterWorker.js", pluginMiddleware.OneSignalSDKUpdaterWorker);
+	
 	// Config set-up
 	db.getObject('settings:onesignal', function(err, config) {
 		if (!err && config) {
