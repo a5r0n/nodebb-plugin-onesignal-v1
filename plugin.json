@@ -1,27 +1,20 @@
 {
-	"id": "nodebb-plugin-onesignal",
-	"name": "OneSignal Notifications",
-	"description": "Allows NodeBB to interface with the OneSignal service in order to provide push notifications to OneSignal applications and devices",
-	"url": "https://github.com/CCob/nodebb-plugin-onesignal",
-	"library": "./library.js",
-	"hooks": [
-		{ "hook": "static:app.load", "method": "init" },
-		{ "hook": "filter:admin.header.build", "method": "addMenuItem" },
-		{ "hook": "action:notification.pushed", "method": "push" },
-		{ "hook": "filter:user.profileMenu", "method": "addProfileItem" },
-		{ "hook": "filter:manifest.build", "method": "getManifest"}
-	],
-	"scripts": [
-		"lib/client-settings.js"
-	],
-	"staticDirs": {
-		"static": "./static"
-	},
-	"less": [
-		"static/style.less"
-	],
-	"scripts": [
-		"lib/client-settings.js"
-	],
-	"templates": "static/templates"
+  "id": "nodebb-plugin-onesignal",
+  "name": "OneSignal Notifications",
+  "description": "Allows NodeBB to interface with the OneSignal service in order to provide push notifications to OneSignal applications and devices",
+  "url": "https://github.com/CCob/nodebb-plugin-onesignal",
+  "library": "./library.js",
+  "hooks": [
+    { "hook": "static:app.load", "method": "init" },
+    { "hook": "filter:admin.header.build", "method": "addMenuItem" },
+    { "hook": "action:notification.pushed", "method": "push" },
+    { "hook": "filter:user.profileMenu", "method": "addProfileItem" },
+    { "hook": "filter:manifest.build", "method": "getManifest" }
+  ],
+  "scripts": ["lib/client-settings.js", "static/lib/"],
+  "staticDirs": {
+    "static": "./static"
+  },
+  "less": ["static/style.less"],
+  "templates": "static/templates"
 }
