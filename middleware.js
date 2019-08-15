@@ -26,14 +26,14 @@ module.exports = function(middleware) {
   };
 
   Middleware.OneSignalSDKWorker = function(req, res, next) {
-    res.render(
-      "/plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKWorker.js"
+    res.sendFile(
+      "plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKWorker.js"
     );
   };
 
   Middleware.OneSignalSDKUpdaterWorker = function(req, res, next) {
-    res.render(
-      "/plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKUpdaterWorker.js"
+    res.sendFile(
+      "plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKUpdaterWorker.js"
     );
   };
 
