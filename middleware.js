@@ -1,3 +1,5 @@
+var path = require("path");
+
 module.exports = function(middleware) {
   var Middleware = {},
     onesignal = require("./library");
