@@ -12,22 +12,20 @@ $(document).ready(function() {
     OneSignal.push(function() {
       OneSignal.on("subscriptionChange", function(isSubscribed) {
         console.log("The user's subscription state is now:", isSubscribed);
-        OneSignal.push(function() {
-          OneSignal.getUserId(function(userId) {
-            console.log("OneSignal User ID:", userId);
-            fetch("/api/me/onesignal/devices", {
-              method: "POST",
-              body: JSON.stringify({
-                player_id: userId
-              })
+        OneSignal.getUserId(function(userId) {
+          console.log("OneSignal User ID:", userId);
+          fetch("/api/me/onesignal/devices", {
+            method: "POST",
+            body: JSON.stringify({
+              player_id: userId
             })
-              .then(function(response) {
-                return response.json();
-              })
-              .then(function(myJson) {
-                console.log(JSON.stringify(myJson));
-              });
-          });
+          })
+            .then(function(response) {
+              return response.json();
+            })
+            .then(function(myJson) {
+              console.log(JSON.stringify(myJson));
+            });
         });
       });
     });
