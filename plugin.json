@@ -11,7 +11,7 @@
     { "hook": "filter:user.profileMenu", "method": "addProfileItem" },
     { "hook": "filter:manifest.build", "method": "getManifest" }
   ],
-  "scripts": ["lib/client-settings.js", "static/lib/"],
+  "scripts": ["lib/client-settings.js", "static/lib/ClientSide.js"],
   "staticDirs": {
     "static": "./static"
   },
