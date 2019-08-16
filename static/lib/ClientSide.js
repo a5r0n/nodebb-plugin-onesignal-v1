@@ -12,7 +12,7 @@ $(document).ready(function() {
     OneSignal.push(function() {
       OneSignal.on("subscriptionChange", function(isSubscribed) {
         console.log("The user's subscription state is now:", isSubscribed);
-        OneSignal.getUserId(function(userId) {
+        window.OneSignal.getUserId(function(userId) {
           console.log("OneSignal User ID:", userId);
           fetch("/api/me/onesignal/devices", {
             method: "POST",
