@@ -3,7 +3,6 @@
 /* globals document, $ */
 
 $(document).ready(function() {
-  $.getScript("https://cdn.onesignal.com/sdks/OneSignalSDK.js");
   var OneSignal = window.OneSignal || [];
   OneSignal.push(function() {
     OneSignal.on("subscriptionChange", function(isSubscribed) {
@@ -34,6 +33,7 @@ $(document).ready(function() {
       autoResubscribe: true
     });
   });
+  $.getScript("https://cdn.onesignal.com/sdks/OneSignalSDK.js");
   console.log("nodebb-plugin-onesignal: loaded");
   // Note how this is shown in the console on the first load of every page
 });
