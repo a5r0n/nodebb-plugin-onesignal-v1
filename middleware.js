@@ -27,13 +27,13 @@ module.exports = function(middleware) {
 
   Middleware.OneSignalSDKWorker = function(req, res, next) {
     res.sendFile(
-      "plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKWorker.js"
+      "./plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKWorker.js"
     );
   };
 
   Middleware.OneSignalSDKUpdaterWorker = function(req, res, next) {
     res.sendFile(
-      "plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKUpdaterWorker.js"
+      "./plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKUpdaterWorker.js"
     );
   };
 
