@@ -26,15 +26,21 @@ module.exports = function(middleware) {
   };
 
   Middleware.OneSignalSDKWorker = function(req, res, next) {
-    res.sendFile(
-      "./plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKWorker.js"
-    );
+    res.sendFile("OneSignalSDKWorker.js", {
+      root: path.join(
+        __dirname,
+        "../../build/plugins/nodebb-plugin-onesignal/static/lib/"
+      )
+    });
   };
 
   Middleware.OneSignalSDKUpdaterWorker = function(req, res, next) {
-    res.sendFile(
-      "./plugins/nodebb-plugin-onesignal/static/lib/OneSignalSDKUpdaterWorker.js"
-    );
+    res.sendFile("OneSignalSDKUpdaterWorker.js", {
+      root: path.join(
+        __dirname,
+        "../../build/plugins/nodebb-plugin-onesignal/static/lib/"
+      )
+    });
   };
 
   Middleware.isLoggedIn = function(req, res, next) {
