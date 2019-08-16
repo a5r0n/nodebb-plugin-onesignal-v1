@@ -31,7 +31,7 @@ module.exports = function(middleware) {
     res.sendFile("OneSignalSDKWorker.js", {
       root: path.join(
         __dirname,
-        "../../build/plugins/nodebb-plugin-onesignal/static/lib/"
+        "../../build/public/plugins/nodebb-plugin-onesignal/static/lib/"
       )
     });
   };
@@ -40,7 +40,7 @@ module.exports = function(middleware) {
     res.sendFile("OneSignalSDKUpdaterWorker.js", {
       root: path.join(
         __dirname,
-        "../../build/plugins/nodebb-plugin-onesignal/static/lib/"
+        "../../build/public/plugins/nodebb-plugin-onesignal/static/lib/"
       )
     });
   };
