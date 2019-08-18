@@ -330,8 +330,7 @@ onesignal.settings.load = function(socket, data, callback) {
 
 onesignal.settings.config = function config(socket, data, callback) {
 	if (socket.hasOwnProperty('uid') && socket.uid > 0) {
-		db.getObjectField('settings:onesignal', 'id', callback)
-		
+		db.getObjectField('settings:onesignal', 'id', callback);		
 	} else {
 		callback(new Error('not-logged-in'));
 	}
