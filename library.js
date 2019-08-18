@@ -58,7 +58,8 @@ onesignal.init = function(data, callback) {
 	SocketPlugins.onesignal = {
 		settings: {
 			save: onesignal.settings.save,
-			load: onesignal.settings.load
+			load: onesignal.settings.load,
+			config: onesignal.settings.config
 		},
 		disassociate: onesignal.disassociate,
 		test: onesignal.test
@@ -322,6 +323,15 @@ onesignal.settings.save = function(socket, data, callback) {
 onesignal.settings.load = function(socket, data, callback) {
 	if (socket.hasOwnProperty('uid') && socket.uid > 0) {
 		db.getObjectFields('user:' + socket.uid + ':settings', ['onesignal:enabled', 'onesignal:target'], callback);
+	} else {
+		callback(new Error('not-logged-in'));
+	}
+};
+
+onesignal.settings.config = function config(socket, data, callback) {
+	if (socket.hasOwnProperty('uid') && socket.uid > 0) {
+		db.getObjectField('settings:onesignal', 'id', callback)
+		
 	} else {
 		callback(new Error('not-logged-in'));
 	}
