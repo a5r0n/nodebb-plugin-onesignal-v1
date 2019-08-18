@@ -200,7 +200,7 @@ function pushToUid(uid, notifObj, players, settings, app_id) {
 					url: notifObj.path || nconf.get('url') + '/topic/' + data.topicSlug + '/' + data.postIndex,
 				};
 
-			winston.verbose('[plugins/onesignal] Sending push notification to uid ' + uid);
+			winston.verbose('[plugins/onesignal] Sending push notification to uid ' + uid + 'players: ' + players);
 			request.post(constants.push_url, {
 				json: payload
 			}, function(err, request, result) {
@@ -295,7 +295,6 @@ onesignal.isUserAssociated = function(uid, callback) {
 
 onesignal.getManifest = function(data, callback){
 	data.manifest.gcm_sender_id = "482941778795";
-	data.manifest.gcm_sender_id_comment = "Do not change the GCM Sender ID";
 	callback(null, data);
 };
 

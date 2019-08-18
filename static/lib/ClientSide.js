@@ -29,6 +29,7 @@ $(document).ready(function() {
         window.OneSignal.getUserId(function(userId) {
           const options = {
             method: "POST",
+            headers: new Headers({ "Content-Type": "application/json" }),
             body: JSON.stringify({
               player_id: userId
             })
