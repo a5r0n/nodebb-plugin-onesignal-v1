@@ -10,7 +10,7 @@ $(document).ready(function () {
     textStatus,
     jqxhr
   ) {
-    socket.emit('plugins.onesignal.settings.config', (err, appId) => {
+    socket.emit('plugins.onesignal.settings.app_id', (err, appId) => {
       let OneSignal = window.OneSignal || [];
       OneSignal.push(function () {
         OneSignal.push([

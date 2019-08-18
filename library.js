@@ -1,3 +1,4 @@
+/* eslint-disable require-jsdoc */
 "use strict";
 
 var db = module.parent.require('./database'),
@@ -28,7 +29,7 @@ var db = module.parent.require('./database'),
 
 	onesignal = {};
 
-onesignal.init = function(data, callback) {
+onesignal.init = function (data, callback) {
 	var pluginMiddleware = require('./middleware')(data.middleware),
 		pluginControllers = require('./controllers');
 
@@ -37,16 +38,16 @@ onesignal.init = function(data, callback) {
 	data.router.get('/api/admin/plugins/onesignal', pluginControllers.renderACP);
 
 	// User routes
-	data.router.get('/onesignal/settings', pluginMiddleware.hasConfig, globalMiddleware.authenticate,pluginMiddleware.setupRequired, data.middleware.buildHeader, pluginControllers.renderSettings);
+	data.router.get('/onesignal/settings', pluginMiddleware.hasConfig, globalMiddleware.authenticate, pluginMiddleware.setupRequired, data.middleware.buildHeader, pluginControllers.renderSettings);
 	data.router.get('/api/me/onesignal/devices', globalMiddleware.authenticate, pluginMiddleware.isLoggedIn, pluginControllers.getPlayerIds);
-    data.router.post('/api/me/onesignal/devices', globalMiddleware.authenticate, pluginMiddleware.isLoggedIn, pluginMiddleware.addDevice, pluginControllers.getPlayerIds);
-	
+	data.router.post('/api/me/onesignal/devices', globalMiddleware.authenticate, pluginMiddleware.isLoggedIn, pluginMiddleware.addDevice, pluginControllers.getPlayerIds);
+
 	// ServiceWorker routes
 	data.router.get("/OneSignalSDKWorker.js", pluginMiddleware.OneSignalSDKWorker);
 	data.router.get("/OneSignalSDKUpdaterWorker.js", pluginMiddleware.OneSignalSDKUpdaterWorker);
-	
+
 	// Config set-up
-	db.getObject('settings:onesignal', function(err, config) {
+	db.getObject('settings:onesignal', function (err, config) {
 		if (!err && config) {
 			onesignal.config = config;
 		} else {
@@ -59,7 +60,7 @@ onesignal.init = function(data, callback) {
 		settings: {
 			save: onesignal.settings.save,
 			load: onesignal.settings.load,
-			config: onesignal.settings.config
+			app_id: onesignal.settings.app_id
 		},
 		disassociate: onesignal.disassociate,
 		test: onesignal.test
@@ -68,12 +69,12 @@ onesignal.init = function(data, callback) {
 	callback();
 };
 
-onesignal.redirectSetup = function(req, res) {
+onesignal.redirectSetup = function (req, res) {
 	var qs = querystring.stringify({
-			client_id: onesignal.config.id,
-			redirect_uri: url.resolve(nconf.get('url'), '/onesignal/auth'),
-			response_type: 'code'
-		});
+		client_id: onesignal.config.id,
+		redirect_uri: url.resolve(nconf.get('url'), '/onesignal/auth'),
+		response_type: 'code'
+	});
 
 	if (process.env.NODE_ENV === 'development') {
 		winston.info('[plugins/onesignal] New association, redirecting user to: ' + constants.authorize_url + '?' + qs);
@@ -82,18 +83,18 @@ onesignal.redirectSetup = function(req, res) {
 	res.redirect(constants.authorize_url + '?' + qs);
 };
 
-onesignal.completeSetup = function(req, res, next) {
+onesignal.completeSetup = function (req, res, next) {
 	async.waterfall([
-		function(next) {
+		function (next) {
 			onesignal.retrieveToken(req.query.code, next);
 		},
-		function(token, next) {
+		function (token, next) {
 			onesignal.saveToken(req.user.uid, token, next);
 		}
 	], next);
 };
 
-onesignal.disassociate = function(socket, data, callback) {
+onesignal.disassociate = function (socket, data, callback) {
 	if (socket.uid) {
 		db.deleteObjectField('users:onesignal:players', socket.uid, callback);
 	} else {
@@ -101,7 +102,7 @@ onesignal.disassociate = function(socket, data, callback) {
 	}
 };
 
-onesignal.test = function(socket, data, callback) {
+onesignal.test = function (socket, data, callback) {
 	if (socket.uid) {
 		onesignal.push({
 			notification: {
@@ -117,7 +118,7 @@ onesignal.test = function(socket, data, callback) {
 	}
 };
 
-onesignal.push = function(data) {
+onesignal.push = function (data) {
 	var notifObj = data.notification;
 	var uids = data.uids;
 
@@ -125,21 +126,21 @@ onesignal.push = function(data) {
 		return;
 	}
 
-	var settingsKeys = uids.map(function(uid) {
+	var settingsKeys = uids.map(function (uid) {
 		return 'user:' + uid + ':settings';
 	});
 
 	async.parallel({
 		players: async.apply(db.getObjectFields, 'users:onesignal:players', uids),
 		settings: async.apply(db.getObjectsFields, settingsKeys, ['onesignal:enabled', 'topicPostSort', 'language']),
-		app_id: async.apply(db.getObjectField,'settings:onesignal', 'id')
-	}, function(err, results) {
+		app_id: async.apply(db.getObjectField, 'settings:onesignal', 'id')
+	}, function (err, results) {
 		if (err) {
 			return winston.error(err.stack);
 		}
 
 		if (results.hasOwnProperty('players')) {
-			uids.forEach(function(uid, index) {
+			uids.forEach(function (uid, index) {
 				if (!results.players[uid] || !results.settings[index]) {
 					return;
 				}
@@ -168,7 +169,7 @@ function pushToUid(uid, notifObj, players, settings, app_id) {
 	}
 
 	async.waterfall([
-		function(next) {
+		function (next) {
 			var language = settings.language || meta.config.defaultLang || 'en-GB',
 				topicPostSort = settings.topicPostSort || meta.config.topicPostSort || 'oldest_to_newest';
 
@@ -176,13 +177,13 @@ function pushToUid(uid, notifObj, players, settings, app_id) {
 			notifObj.bodyLong = escapeHtml(striptags(unescapeHtml(notifObj.bodyLong || '')));
 			async.parallel({
 				title: async.apply(topics.getTopicFieldByPid, 'title', notifObj.pid),
-				text: function(next) {
-					translator.translate(notifObj.bodyShort, language, function(translated) {
+				text: function (next) {
+					translator.translate(notifObj.bodyShort, language, function (translated) {
 						next(undefined, striptags(translated));
-			 		});
+					});
 				},
-				postIndex: function(next) {
-					posts.getPostField(notifObj.pid, 'tid', function(err, tid) {
+				postIndex: function (next) {
+					posts.getPostField(notifObj.pid, 'tid', function (err, tid) {
 						if (err) {
 							return next(err);
 						}
@@ -192,30 +193,30 @@ function pushToUid(uid, notifObj, players, settings, app_id) {
 				topicSlug: async.apply(topics.getTopicFieldByPid, 'slug', notifObj.pid)
 			}, next);
 		},
-		function(data, next) {
-			var	payload = {
-					app_id: app_id,
-					headings: {'en' : data.title ? data.title : ""} ,
-					contents: {'en': data.text },
-                	include_player_ids: JSON.parse(players),
-					url: notifObj.path || nconf.get('url') + '/topic/' + data.topicSlug + '/' + data.postIndex,
-				};
+		function (data, next) {
+			var payload = {
+				app_id: app_id,
+				headings: { 'en': data.title ? data.title : "" },
+				contents: { 'en': data.text },
+				include_player_ids: JSON.parse(players),
+				url: notifObj.path || nconf.get('url') + '/topic/' + data.topicSlug + '/' + data.postIndex,
+			};
 
 			winston.verbose('[plugins/onesignal] Sending push notification to uid ' + uid + 'players: ' + players);
 			request.post(constants.push_url, {
 				json: payload
-			}, function(err, request, result) {
+			}, function (err, request, result) {
 				if (err) {
-					winston.error('[plugins/onesignal (uid: ' + uid  + ')] ' + err.message);
+					winston.error('[plugins/onesignal (uid: ' + uid + ')] ' + err.message);
 				} else if (result) {
 					try {
 						if (result.hasOwnProperty('errors')) {
-                            result.errors.forEach(function(err){
-                                winston.error('[plugins/onesignal (uid: ' + uid  + ')] ' + err);
-                            });
+							result.errors.forEach(function (err) {
+								winston.error('[plugins/onesignal (uid: ' + uid + ')] ' + err);
+							});
 						}
 					} catch (e) {
-						winston.error('[plugins/onesignal (uid: ' + uid  + ')] ' + e);
+						winston.error('[plugins/onesignal (uid: ' + uid + ')] ' + e);
 					}
 				}
 			});
@@ -223,7 +224,7 @@ function pushToUid(uid, notifObj, players, settings, app_id) {
 	]);
 }
 
-onesignal.addMenuItem = function(custom_header, callback) {
+onesignal.addMenuItem = function (custom_header, callback) {
 	custom_header.plugins.push({
 		"route": '/plugins/onesignal',
 		"icon": 'fa-mobile',
@@ -233,7 +234,7 @@ onesignal.addMenuItem = function(custom_header, callback) {
 	callback(null, custom_header);
 };
 
-onesignal.addProfileItem = function(data, callback) {
+onesignal.addProfileItem = function (data, callback) {
 	if (onesignal.config && onesignal.config.id && onesignal.config.secret) {
 		data.links.push({
 			id: 'onesignal',
@@ -253,35 +254,35 @@ onesignal.addProfileItem = function(data, callback) {
 	callback(null, data);
 };
 
-onesignal.savePlayerId = function(uid, playerId, callback) {
+onesignal.savePlayerId = function (uid, playerId, callback) {
 
 	async.waterfall([
-		function(next){
-        	db.isObjectField('users:onesignal:players', uid, next);
+		function (next) {
+			db.isObjectField('users:onesignal:players', uid, next);
 		},
-		function(exists, next){
-			if(exists){
-                onesignal.getPlayerIds(uid,next);
-			}else{
-				next(null,JSON.stringify([]));
+		function (exists, next) {
+			if (exists) {
+				onesignal.getPlayerIds(uid, next);
+			} else {
+				next(null, JSON.stringify([]));
 			}
 		},
-		function(playersData, next){
+		function (playersData, next) {
 			var players = new Set(JSON.parse(playersData));
 			players.add(playerId);
-			db.setObjectField('users:onesignal:players', uid,JSON.stringify(Array.from(players)),next);
+			db.setObjectField('users:onesignal:players', uid, JSON.stringify(Array.from(players)), next);
 		}],
 		callback);
 };
 
-onesignal.getPlayerIds = function(uid, callback) {
-    db.getObjectField('users:onesignal:players', uid, callback);
+onesignal.getPlayerIds = function (uid, callback) {
+	db.getObjectField('users:onesignal:players', uid, callback);
 };
 
-onesignal.getUserDevices = function(uid, callback) {
+onesignal.getUserDevices = function (uid, callback) {
 	async.parallel({
 		players: async.apply(db.getObjectField, 'users:onesignal:players', uid)
-	}, function(err, results) {
+	}, function (err, results) {
 		if (results.players) {
 			callback(null, JSON.parse(results.players));
 		} else {
@@ -290,17 +291,17 @@ onesignal.getUserDevices = function(uid, callback) {
 	});
 };
 
-onesignal.isUserAssociated = function(uid, callback) {
+onesignal.isUserAssociated = function (uid, callback) {
 	db.isObjectField('users:onesignal:players', uid, callback);
 };
 
-onesignal.getManifest = function(data, callback){
+onesignal.getManifest = function (data, callback) {
 	data.manifest.gcm_sender_id = "482941778795";
 	callback(null, data);
 };
 
-onesignal.getAssociatedUsers = function(callback) {
-	db.getObjectKeys('users:onesignal:players', function(err, uids) {
+onesignal.getAssociatedUsers = function (callback) {
+	db.getObjectKeys('users:onesignal:players', function (err, uids) {
 		if (!err) {
 			user.getUsersFields(uids, ['username', 'picture'], callback);
 		} else {
@@ -312,7 +313,7 @@ onesignal.getAssociatedUsers = function(callback) {
 /* Settings */
 onesignal.settings = {};
 
-onesignal.settings.save = function(socket, data, callback) {
+onesignal.settings.save = function (socket, data, callback) {
 	if (socket.hasOwnProperty('uid') && socket.uid > 0) {
 		db.setObject('user:' + socket.uid + ':settings', data, callback);
 	} else {
@@ -320,7 +321,7 @@ onesignal.settings.save = function(socket, data, callback) {
 	}
 };
 
-onesignal.settings.load = function(socket, data, callback) {
+onesignal.settings.load = function (socket, data, callback) {
 	if (socket.hasOwnProperty('uid') && socket.uid > 0) {
 		db.getObjectFields('user:' + socket.uid + ':settings', ['onesignal:enabled', 'onesignal:target'], callback);
 	} else {
@@ -328,9 +329,9 @@ onesignal.settings.load = function(socket, data, callback) {
 	}
 };
 
-onesignal.settings.config = function config(socket, data, callback) {
+onesignal.settings.app_id = function config(socket, data, callback) {
 	if (socket.hasOwnProperty('uid') && socket.uid > 0) {
-		db.getObjectField('settings:onesignal', 'id', callback);		
+		db.getObjectField('settings:onesignal', 'id', callback);
 	} else {
 		callback(new Error('not-logged-in'));
 	}
