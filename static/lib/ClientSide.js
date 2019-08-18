@@ -10,14 +10,6 @@ $(document).ready(function() {
   ) {
     var OneSignal = window.OneSignal || [];
     OneSignal.push(function() {
-      OneSignal.on("notificationPermissionChange", function(isSubscribed) {
-        if (isSubscribed) {
-          onSubscribeButtonClicked();
-        } else {
-          onUnsubscribeButtonClicked();
-        }
-      });
-
       OneSignal.push([
         "init",
         {
@@ -34,7 +26,7 @@ $(document).ready(function() {
       ]);
 
       function onSubscribeButtonClicked() {
-        OneSignal.getUserId(function(userId) {
+        window.OneSignal.getUserId(function(userId) {
           const options = {
             method: "POST",
             body: JSON.stringify({
@@ -52,6 +44,14 @@ $(document).ready(function() {
       }
 
       function onUnsubscribeButtonClicked() {}
+
+      OneSignal.on("subscriptionChange", function(isSubscribed) {
+        if (isSubscribed) {
+          onSubscribeButtonClicked();
+        } else {
+          onUnsubscribeButtonClicked();
+        }
+      });
     });
   });
   console.log("nodebb-plugin-onesignal: loaded");
