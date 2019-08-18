@@ -1,56 +1,55 @@
-"use strict";
-
-import { Socket } from "net";
+/* eslint-disable require-jsdoc */
+'use strict';
 
 /* globals document, $, socket*/
 /**/
 
-$(document).ready(function() {
-  $.getScript("https://cdn.onesignal.com/sdks/OneSignalSDK.js", function(
+$(document).ready(function () {
+  $.getScript('https://cdn.onesignal.com/sdks/OneSignalSDK.js', function (
     data,
     textStatus,
     jqxhr
   ) {
-    Socket.emit("plugins.onesignal.settings.config", (err, appId) => {
-      var OneSignal = window.OneSignal || [];
-      OneSignal.push(function() {
+    Socket.emit('plugins.onesignal.settings.config', (err, appId) => {
+      let OneSignal = window.OneSignal || [];
+      OneSignal.push(function () {
         OneSignal.push([
-          "init",
+          'init',
           {
             appId: appId,
             notifyButton: {
               enable: false,
-              position: "bottom-right",
+              position: 'bottom-right',
               offset: {
-                bottom: "50px"
-              }
+                bottom: '50px',
+              },
             },
-            autoResubscribe: true
-          }
+            autoResubscribe: true,
+          },
         ]);
 
         function onSubscribeButtonClicked() {
-          window.OneSignal.getUserId(function(userId) {
+          window.OneSignal.getUserId(function (userId) {
             const options = {
-              method: "POST",
-              headers: new Headers({ "Content-Type": "application/json" }),
+              method: 'POST',
+              headers: new Headers({ 'Content-Type': 'application/json' }),
               body: JSON.stringify({
-                player_id: userId
-              })
+                player_id: userId,
+              }),
             };
-            fetch("/api/me/onesignal/devices", options)
-              .then(function(response) {
+            fetch('/api/me/onesignal/devices', options)
+              .then(function (response) {
                 return response.json();
               })
-              .then(function(myJson) {
+              .then(function (myJson) {
                 console.log(JSON.stringify(myJson));
               });
           });
         }
 
-        function onUnsubscribeButtonClicked() {}
+        function onUnsubscribeButtonClicked() { }
 
-        OneSignal.on("subscriptionChange", function(isSubscribed) {
+        OneSignal.on('subscriptionChange', function (isSubscribed) {
           if (isSubscribed) {
             onSubscribeButtonClicked();
           } else {
@@ -59,7 +58,7 @@ $(document).ready(function() {
         });
       });
     });
-    console.log("nodebb-plugin-onesignal: loaded");
+    console.log('nodebb-plugin-onesignal: loaded');
     // Note how this is shown in the console on the first load of every page
   });
 });
