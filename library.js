@@ -39,6 +39,7 @@ onesignal.init = function (data, callback) {
 
 	// User routes
 	data.router.get('/onesignal/settings', pluginMiddleware.hasConfig, globalMiddleware.authenticate, pluginMiddleware.setupRequired, data.middleware.buildHeader, pluginControllers.renderSettings);
+	data.router.get('/api/onesignal/settings', globalMiddleware.authenticate, pluginMiddleware.setupRequired, pluginControllers.renderSettings);
 	data.router.get('/api/me/onesignal/devices', globalMiddleware.authenticate, pluginMiddleware.isLoggedIn, pluginControllers.getPlayerIds);
 	data.router.post('/api/me/onesignal/devices', globalMiddleware.authenticate, pluginMiddleware.isLoggedIn, pluginMiddleware.addDevice, pluginControllers.getPlayerIds);
 
