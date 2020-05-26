@@ -2,7 +2,9 @@
 Allows NodeBB to interface with the onesignal service in order to provide push notifications to user mobile phones.
 
 ## Installation
-Download and manually extract this repo.
+cd to nodebb folder and run:
+
+`npm install https://github.com/h98aaron/nodebb-plugin-onesignal-v1`
 
 ## Configuration
 
